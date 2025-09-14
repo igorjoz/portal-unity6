@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -11,6 +12,38 @@ public class GameManager : MonoBehaviour
 
     bool isGameEnd = false;
     bool isWin = false;
+
+    int diamonds;
+
+    int goldKeys;
+    int greenKeys;
+    int redKeys;
+
+    public void AddDiamond()
+    {
+        diamonds++;
+    }
+    public void AddKey(KeyColor keyColor)
+    {
+        switch (keyColor)
+        {
+            case KeyColor.Gold:
+                goldKeys++;
+                break;
+            case KeyColor.Green:
+                greenKeys++;
+                break;
+            case KeyColor.Red:
+                redKeys++;
+                break;
+        }
+    }
+
+    public void AddTime(int timeToAdd)
+    {
+        timeToEnd += timeToAdd;
+        if(timeToEnd < 0) timeToEnd = 0;
+    }
 
     public void EndGame()
     {
@@ -92,4 +125,5 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1f;
         isGamePaused = false;
     }
+
 }
