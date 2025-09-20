@@ -126,4 +126,9 @@ public class GameManager : MonoBehaviour
         isGamePaused = false;
     }
 
+    public void FreezeTime(int time)
+    {
+        CancelInvoke("Stopper");
+        InvokeRepeating("Stopper", time, 1);
+    }
 }
