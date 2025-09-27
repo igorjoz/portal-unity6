@@ -43,6 +43,10 @@ public class PortalTeleport : MonoBehaviour
                 float rotationDifference = -Quaternion.Angle(transform.rotation, receiver.rotation);
                 rotationDifference += 180;
                 player.Rotate(Vector3.up, rotationDifference);
+
+                Vector3 postionOffset = Quaternion.Euler(0f, rotationDifference, 0f) * portalToPlayer;
+                player.position = receiver.position + postionOffset;
+                playerIsOverlapping = false;
             }
         }
     }
