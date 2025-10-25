@@ -7,7 +7,7 @@ public class PortalTeleport : MonoBehaviour
 
     public Transform player;
     public Transform receiver;
-    
+
     private bool playerIsOverlapping = false;
 
     private void OnTriggerEnter(Collider other)
@@ -26,12 +26,7 @@ public class PortalTeleport : MonoBehaviour
         }
     }
 
-    void FixedUpdate()
-    {
-        CheckTeleportation();
-    }
-
-    void CheckTeleportation()
+    void Teleportation()
     {
         if (playerIsOverlapping)
         {
@@ -40,14 +35,20 @@ public class PortalTeleport : MonoBehaviour
 
             if (dotProduct < 0f)
             {
-                float rotationDifference = -Quaternion.Angle(transform.rotation, receiver.rotation);
-                rotationDifference += 180;
-                player.Rotate(Vector3.up, rotationDifference);
+                float rotationDiff = -Quaternion.Angle(transform.rotation, receiver.rotation);
+                rotationDiff += 180;
+                player.Rotate(Vector3.up, rotationDiff);
 
-                Vector3 postionOffset = Quaternion.Euler(0f, rotationDifference, 0f) * portalToPlayer;
-                player.position = receiver.position + postionOffset;
+                Vector3 positionOffset = Quaternion.Euler(0f, rotationDiff, 0f) * portalToPlayer;
+                player.position = receiver.position + positionOffset;
+
                 playerIsOverlapping = false;
             }
         }
+    }
+
+    private void FixedUpdate()
+    {
+        Teleportation();
     }
 }
