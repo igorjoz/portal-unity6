@@ -18,7 +18,7 @@ public class Lock : MonoBehaviour
 
     void Update()
     {
-        Debug.Log("isLocked: " + isLocked + ", canOpen: " + canOpen);
+        //Debug.Log("isLocked: " + isLocked + ", canOpen: " + canOpen);
         
         if (Input.GetKeyDown(KeyCode.E) && canOpen && isLocked)
         {
