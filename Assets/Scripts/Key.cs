@@ -8,6 +8,7 @@ public class Key : Pickup
     {
         base.Pick();
         GameManager.instance.AddKey(keyColor);
+        Debug.Log("Podniesiono klucz: " + keyColor.ToString());
     }
 }
 

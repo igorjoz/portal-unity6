@@ -8,24 +8,19 @@ public class Lock : MonoBehaviour
     bool canOpen = false;
     public Door[] doors;
     public KeyColor keyColor;
-    public bool isLocked = false;
+    public bool isLocked = true;
     Animator key;
 
-    // Start is called before the first frame update
     void Start()
     {
         key = GetComponent<Animator>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (canOpen && !isLocked)
-        {
-            GameManager.gameManager.SetUseInfo("Press E to open lock");
-        }
-
-        if (Input.GetKeyDown(KeyCode.E) && canOpen && !isLocked)
+        Debug.Log("isLocked: " + isLocked + ", canOpen: " + canOpen);
+        
+        if (Input.GetKeyDown(KeyCode.E) && canOpen && isLocked)
         {
             key.SetBool("useKey", CheckTheKey());
         }
@@ -41,34 +36,31 @@ public class Lock : MonoBehaviour
 
     public bool CheckTheKey()
     {
-        if (GameManager.gameManager.redKey > 0 && keyColor == KeyColor.Red)
+        if (GameManager.instance.redKeys > 0 && keyColor == KeyColor.Red)
         {
-            GameManager.gameManager.redKey--;
-            GameManager.gameManager.redKeyText.text = GameManager.gameManager.redKey.ToString();
+            GameManager.instance.redKeys--;
 
-            isLocked = true;
+            isLocked = false;
             return true;
         }
-        else if (GameManager.gameManager.greenKey > 0 && keyColor == KeyColor.Green)
+        else if (GameManager.instance.greenKeys > 0 && keyColor == KeyColor.Green)
         {
-            GameManager.gameManager.greenKey--;
-            GameManager.gameManager.greenKeyText.text = GameManager.gameManager.greenKey.ToString();
+            GameManager.instance.greenKeys--;
 
-            isLocked = true;
+            isLocked = false;
             return true;
         }
-        else if (GameManager.gameManager.goldKey > 0 && keyColor == KeyColor.Gold)
+        else if (GameManager.instance.goldKeys > 0 && keyColor == KeyColor.Gold)
         {
-            GameManager.gameManager.goldKey--;
-            GameManager.gameManager.goldKeyText.text = GameManager.gameManager.goldKey.ToString();
+            GameManager.instance.goldKeys--;
 
-            isLocked = true;
+            isLocked = false;
             return true;
         }
         else
         {
             Debug.Log("Nie masz klucza!");
-            return false;
+            return true;
         }
     }
 
@@ -86,8 +78,6 @@ public class Lock : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             canOpen = false;
-            GameManager.gameManager.SetUseInfo("");
-
             Debug.Log("You can not open the door :(");
         }
     }

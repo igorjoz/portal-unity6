@@ -15,9 +15,9 @@ public class GameManager : MonoBehaviour
 
     int diamonds;
 
-    int goldKeys;
-    int greenKeys;
-    int redKeys;
+    public int goldKeys;
+    public int greenKeys;
+    public int redKeys;
 
     public void AddDiamond()
     {
