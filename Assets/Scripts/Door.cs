@@ -11,11 +11,15 @@ public class Door : MonoBehaviour
     public bool open = false;
     float speed = 5;
 
+
+    // Start is called before the first frame update
     void Start()
     {
         door.position = closePosition.position;
     }
 
+
+    // Update is called once per frame
     private void Update()
     {
         if (open && Vector3.Distance(door.position, openPosition.position) > 0.001f)
@@ -24,8 +28,10 @@ public class Door : MonoBehaviour
         }
     }
 
+
     public void Open()
     {
         open = true;
     }
+
 }
