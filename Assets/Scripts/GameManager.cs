@@ -19,6 +19,25 @@ public class GameManager : MonoBehaviour
     public int greenKeys;
     public int redKeys;
 
+    AudioSource audioSource;
+
+    public AudioClip resumeClip;
+    public AudioClip pauseClip;
+    public AudioClip winClip;
+    public AudioClip loseClip;
+    public AudioClip pickupClip;
+
+    public void PlayPickupClip()
+    {
+        PlayClip(pickupClip);
+    }
+
+    public void PlayClip(AudioClip playClip)
+    {
+        audioSource.clip = playClip;
+        audioSource.Play();
+    }
+
     public void AddDiamond()
     {
         diamonds++;
@@ -52,10 +71,12 @@ public class GameManager : MonoBehaviour
         if (isWin)
         {
             Debug.Log("You won!");
+            PlayClip(winClip);
         }
         else
         {
             Debug.Log("You lost");
+            PlayClip(loseClip);
         }
     }
 
@@ -90,6 +111,7 @@ public class GameManager : MonoBehaviour
         }
 
         InvokeRepeating("Stopper", 2, 1);
+        audioSource = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -117,6 +139,7 @@ public class GameManager : MonoBehaviour
         Debug.Log("Game paused");
         Time.timeScale = 0f;
         isGamePaused = true;
+        PlayClip(pauseClip);
     }
 
     public void ResumeGame()
@@ -124,6 +147,7 @@ public class GameManager : MonoBehaviour
         Debug.Log("Game resumed");
         Time.timeScale = 1f;
         isGamePaused = false;
+        PlayClip(resumeClip);
     }
 
     public void FreezeTime(int time)
