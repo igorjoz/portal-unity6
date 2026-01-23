@@ -4,6 +4,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
+    AudioSource audioSource;
 
     [SerializeField]
     int timeToEnd;
@@ -18,6 +19,12 @@ public class GameManager : MonoBehaviour
     public int goldKeys;
     public int greenKeys;
     public int redKeys;
+
+    public AudioClip resumeClip;
+    public AudioClip pauseClip;
+    public AudioClip winClip;
+    public AudioClip loseClip;
+    public AudioClip pickupClip;
 
     public void AddDiamond()
     {
@@ -51,10 +58,12 @@ public class GameManager : MonoBehaviour
 
         if (isWin)
         {
+            PlayClip(winClip);
             Debug.Log("You won!");
         }
         else
         {
+            PlayClip(loseClip);
             Debug.Log("You lost");
         }
     }
@@ -89,6 +98,7 @@ public class GameManager : MonoBehaviour
             timeToEnd = 10;
         }
 
+        audioSource = GetComponent<AudioSource>();
         InvokeRepeating("Stopper", 2, 1);
     }
 
@@ -114,6 +124,7 @@ public class GameManager : MonoBehaviour
 
     public void PauseGame()
     {
+        PlayClip(pauseClip);
         Debug.Log("Game paused");
         Time.timeScale = 0f;
         isGamePaused = true;
@@ -121,6 +132,7 @@ public class GameManager : MonoBehaviour
 
     public void ResumeGame()
     {
+        PlayClip(resumeClip);
         Debug.Log("Game resumed");
         Time.timeScale = 1f;
         isGamePaused = false;
@@ -130,5 +142,16 @@ public class GameManager : MonoBehaviour
     {
         CancelInvoke("Stopper");
         InvokeRepeating("Stopper", time, 1);
+    }
+
+    public void PlayClip(AudioClip clip)
+    {
+        audioSource.clip = clip;
+        audioSource.Play();
+    }
+
+    public void PlayPickupClip()
+    {
+        PlayClip(pickupClip);
     }
 }

@@ -17,6 +17,7 @@ public abstract class Pickup : MonoBehaviour
 
     protected virtual void Pick()
     {
+        GameManager.instance.PlayPickupClip();
         Destroy(gameObject);
     }
 }
