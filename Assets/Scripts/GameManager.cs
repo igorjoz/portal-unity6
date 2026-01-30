@@ -1,8 +1,21 @@
 using System;
 using UnityEngine;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
+    public TMP_Text timeText;
+    public TMP_Text goldKeysText;
+    public TMP_Text redKeysText;
+    public TMP_Text greenKeysText;
+    public TMP_Text CrystalText;
+
+    public GameObject gamePanel;
+    public GameObject infoPanel;
+    public TMP_Text InfoPanelText;
+    public TMP_Text GamePanelText;
+
+
     public static GameManager instance;
     AudioSource audioSource;
 
@@ -29,22 +42,9 @@ public class GameManager : MonoBehaviour
     public void AddDiamond()
     {
         diamonds++;
+        CrystalText.text = diamonds.ToString();
     }
-    public void AddKey(KeyColor keyColor)
-    {
-        switch (keyColor)
-        {
-            case KeyColor.Gold:
-                goldKeys++;
-                break;
-            case KeyColor.Green:
-                greenKeys++;
-                break;
-            case KeyColor.Red:
-                redKeys++;
-                break;
-        }
-    }
+    
 
     public void AddTime(int timeToAdd)
     {
@@ -55,16 +55,19 @@ public class GameManager : MonoBehaviour
     public void EndGame()
     {
         CancelInvoke("Stopper");
+        infoPanel.SetActive(true);
 
         if (isWin)
         {
             PlayClip(winClip);
             Debug.Log("You won!");
+            InfoPanelText.text = "Win!";
         }
         else
         {
             PlayClip(loseClip);
             Debug.Log("You lost");
+            InfoPanelText.text = "Loser c:";
         }
     }
 
@@ -72,6 +75,7 @@ public class GameManager : MonoBehaviour
     {
         timeToEnd--;
         Debug.Log("Time: " + timeToEnd + "s");
+        timeText.text = timeToEnd.ToString();
 
         if (timeToEnd <= 0)
         {
@@ -98,8 +102,31 @@ public class GameManager : MonoBehaviour
             timeToEnd = 10;
         }
 
+        timeText.text = timeToEnd.ToString();
+        infoPanel.SetActive(false);
+        gamePanel.SetActive(false);
+
         audioSource = GetComponent<AudioSource>();
         InvokeRepeating("Stopper", 2, 1);
+    }
+
+    public void AddKey(KeyColor keyColor)
+    {
+        switch (keyColor)
+        {
+            case KeyColor.Gold:
+                goldKeys++;
+                goldKeysText.text = goldKeys.ToString();
+                break;
+            case KeyColor.Green:
+                greenKeys++;
+                greenKeysText.text = greenKeys.ToString();
+                break;
+            case KeyColor.Red:
+                redKeys++;
+                redKeysText.text = redKeys.ToString();
+                break;
+        }
     }
 
     void Update()
@@ -153,5 +180,11 @@ public class GameManager : MonoBehaviour
     public void PlayPickupClip()
     {
         PlayClip(pickupClip);
+    }
+
+    public void WinGame()
+    {
+        isWin = true;
+        isGameEnd = true;
     }
 }
